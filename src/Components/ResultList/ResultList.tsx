@@ -3,7 +3,12 @@ import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom'
 import { Row, Col } from 'react-bootstrap'
 import Detail from '../Detail/Detail'
 
-const ResultList = ({data}) => {
+interface DataType{
+    data: Array<any>;
+
+}
+
+const ResultList: FC<DataType> = ({data}) => {
     const [modalShow, setModalShow] = useState(false);
 
     return (

@@ -8,7 +8,7 @@ import ResultList from './Components/ResultList/ResultList';
 
 
 const Home = () => {
-  const [data, setData] = useState<ContextInterface | null>(null);
+  const [data, setData] = useState<any>(null);
 
     return(
       <Container fluid className = 'wrapper'>

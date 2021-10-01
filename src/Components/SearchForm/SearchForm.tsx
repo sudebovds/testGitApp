@@ -33,7 +33,7 @@ const SearchForm: FC<searchFormType> = ({ setData }) => {
                         className="mb-3" 
                         controlId="formBasicSearch"
                     >
-                        <Form.Control ref = {searchInputRef} type="text" placeholder="Type the repo name" />
+                        <Form.Control ref = {searchInputRef} type="text" placeholder="Type the repo name and push the Enter" />
                     </Form.Group>
                 </Form>
             </Col>

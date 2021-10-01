@@ -50,13 +50,18 @@ const Detail = ({...props}) => {
                 <Row className = 'modal__description_devider'>
                     <hr />
                 </Row>
-                <Row className = 'modal__description_readmy'>
-                    <Col>
-                        <ReactMarkdown>
-                            {readmy}
-                        </ReactMarkdown>
-                    </Col>
-                </Row>          
+                {readmy ? 
+                    <Row className = 'modal__description_readmy'>
+                        <Col>
+                            <ReactMarkdown>
+                                {readmy}
+                            </ReactMarkdown>
+                        </Col>
+                    </Row>
+                    :
+                    null 
+                }
+         
             </div>
         </Modal.Body>
         <Modal.Footer>
