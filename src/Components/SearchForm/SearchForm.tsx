@@ -1,51 +1,55 @@
-import React, { ChangeEvent, useState } from 'react'
-import { Col, Row, Form, Button } from 'react-bootstrap'
-import { FetchingData } from '../../assets/SupportFunctions';
+import axios from 'axios';
+import React, { FC, useRef, useState, useEffect, Dispatch } from 'react'
+import { Col, Form, Row, Button } from 'react-bootstrap'
+import { ContextInterface } from '../../Interfaces/Common'
 
-const SearchForm = () => {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [pageItemsCount, setPageItemsCount] = useState(30);
-    const [data, setData] = useState(null);
+interface searchFormType{
+    data: ContextInterface | null;
+    setData: Dispatch<ContextInterface>;
+}
 
-    const onChangeHandler = (e: ChangeEvent, stateChanger: (data: any) => void) => {
-        e.preventDefault();
+const SearchForm: FC<searchFormType> = ({data, setData}) => {
+    const searchInputRef = useRef<HTMLInputElement>(null);
+    const [searchQuery, setSearchQuery] = useState<string | null>(null);
 
-        stateChanger(e.target?.value);
-    }
+    useEffect(() => {
+        const query = searchQuery?.trim();
 
-    const formSubmitHandler = (e: React.SyntheticEvent) => {
-        e.preventDefault();
-        if(searchQuery){
-            FetchingData({
-                url: 'search/repositories',
-                query: searchQuery,
-                per_page: pageItemsCount,
-                dataFunction: setData
-            });
-        } else{
-            console.log('empty input');
-        }
-    }
-
-    console.log(data);
+        axios.request({
+            url: 'search/repositories',
+            method: 'get',
+            baseURL: 'https://api.github.com',
+            params: {
+              q: query,
+              per_page: 30,
+              page: 1
+            }
+          })
+            .catch(err => console.error(err))
+            .then(response => {
+              setData(response?.data);
+            })
+    }, [searchQuery])
 
     return (
-        <Form className = 'form' onSubmit = {formSubmitHandler}>
-            <Row className = 'form__row mb-3'>
-                <Form.Group as={Col} controlId="formGridSearch">
-                    <Form.Label>Search</Form.Label>
-                    <Form.Control type="search" placeholder="Type the repo name" onChange = {(e) => onChangeHandler(e, setSearchQuery)} />
-                </Form.Group> 
-                    <Form.Group as={Col} controlId="formGridCount">
-                    <Form.Label>Items per page</Form.Label>
-                    <Form.Control type="number" onChange = {(e) => onChangeHandler(e, setPageItemsCount)} />
-                </Form.Group>                                                       
-            </Row>
-
-            <Button variant="primary" type="submit">
-                Serch
-            </Button>
-        </Form>    
+        <Row>
+            <Col md = {6} style = {{margin: 'auto'}}>
+                <Form onSubmit = {(e: React.FormEvent) => {
+                    e.preventDefault()
+                    
+                    if(searchInputRef?.current?.value){
+                        setSearchQuery(searchInputRef.current.value)
+                    }
+                }}>
+                    <Form.Group 
+                        className="mb-3" 
+                        controlId="formBasicSearch"
+                    >
+                        <Form.Control ref = {searchInputRef} type="text" placeholder="Type the repo name" />
+                    </Form.Group>
+                </Form>
+            </Col>
+        </Row>
     )
 }
 
