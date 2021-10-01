@@ -15,29 +15,29 @@ const SearchForm: FC<searchFormType> = ({data, setData}) => {
     useEffect(() => {
         const query = searchQuery?.trim();
 
-        axios.request({
-            url: 'search/repositories',
-            method: 'get',
-            baseURL: 'https://api.github.com',
-            params: {
-              q: query,
-              per_page: 30,
-              page: 1
-            }
-          })
-            .catch(err => console.error(err))
-            .then(response => {
-              setData(response?.data);
+        if(query){
+            axios.request({
+                url: 'search/repositories',
+                method: 'get',
+                baseURL: 'https://api.github.com',
+                params: {
+                  q: query,
+                  per_page: 30,
+                  page: 1
+                }
+              })
+                .catch(err => console.error(err))
+                .then(response => {
+                  setData(response?.data);
             })
+        }
     }, [searchQuery])
 
-    const onSubmitHandler = () => {
-        (e: React.FormEvent) => {
-            e.preventDefault()
-            
-            if(searchInputRef?.current?.value){
-                setSearchQuery(searchInputRef.current.value)
-            }
+    const onSubmitHandler = (e: React.FormEvent) => {
+        e.preventDefault()
+        
+        if(searchInputRef?.current?.value){
+            setSearchQuery(searchInputRef.current.value)
         }
     }
 
