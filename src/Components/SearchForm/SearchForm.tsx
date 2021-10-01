@@ -31,16 +31,20 @@ const SearchForm: FC<searchFormType> = ({data, setData}) => {
             })
     }, [searchQuery])
 
+    const onSubmitHandler = () => {
+        (e: React.FormEvent) => {
+            e.preventDefault()
+            
+            if(searchInputRef?.current?.value){
+                setSearchQuery(searchInputRef.current.value)
+            }
+        }
+    }
+
     return (
         <Row>
             <Col md = {6} style = {{margin: 'auto'}}>
-                <Form onSubmit = {(e: React.FormEvent) => {
-                    e.preventDefault()
-                    
-                    if(searchInputRef?.current?.value){
-                        setSearchQuery(searchInputRef.current.value)
-                    }
-                }}>
+                <Form onSubmit = {onSubmitHandler}>
                     <Form.Group 
                         className="mb-3" 
                         controlId="formBasicSearch"
