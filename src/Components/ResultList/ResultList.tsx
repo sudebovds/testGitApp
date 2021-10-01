@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react'
-import { Row, Col } from 'react-bootstrap'
 import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom'
+import { Row, Col } from 'react-bootstrap'
 import Detail from '../Detail/Detail'
 
 interface dataType{

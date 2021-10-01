@@ -1,7 +1,8 @@
-import axios from 'axios';
 import React, { FC, useRef, useState, useEffect, Dispatch } from 'react'
-import { Col, Form, Row, Button } from 'react-bootstrap'
+import axios from 'axios'
+import { Col, Form, Row } from 'react-bootstrap'
 import { ContextInterface } from '../../Interfaces/Common'
+import { FetchingData } from '../../API/apiFunctions'
 
 interface searchFormType{
     data: ContextInterface | null;
@@ -13,24 +14,8 @@ const SearchForm: FC<searchFormType> = ({data, setData}) => {
     const [searchQuery, setSearchQuery] = useState<string | null>(null);
 
     useEffect(() => {
-        const query = searchQuery?.trim();
-
-        if(query){
-            axios.request({
-                url: 'search/repositories',
-                method: 'get',
-                baseURL: 'https://api.github.com',
-                params: {
-                  q: query,
-                  per_page: 30,
-                  page: 1
-                }
-              })
-                .catch(err => console.error(err))
-                .then(response => {
-                  setData(response?.data);
-            })
-        }
+        FetchingData(searchQuery, setData)
+        
     }, [searchQuery])
 
     const onSubmitHandler = (e: React.FormEvent) => {

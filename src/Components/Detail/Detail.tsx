@@ -1,6 +1,6 @@
 import React from 'react'
-import { Modal, Button } from 'react-bootstrap'
 import { useParams } from 'react-router'
+import { Modal, Button } from 'react-bootstrap'
 
 const Detail = ({...props}) => {
     let { name } = useParams()
