@@ -1,9 +1,22 @@
-import React from 'react'
-import { useParams } from 'react-router'
-import { Modal, Button } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useParams } from 'react-router'
+import { Modal, Button, Badge, Row, Col } from 'react-bootstrap'
+import './detail.scss'
+import { FetchReadme } from '../../API/apiFunctions'
+import ReactMarkdown from 'react-markdown'
 
 const Detail = ({...props}) => {
-    let { name } = useParams()
+    const [readmy, setReadmy] = useState();
+
+    let { name } = useParams<any>()
+
+    const { state } = useLocation<any>()
+
+    useEffect(() => {
+        if(state.owner){
+            FetchReadme(state.owner, name, setReadmy)
+        }
+    }, [state.owner])
 
     return (
         <Modal
@@ -14,16 +27,37 @@ const Detail = ({...props}) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Modal heading
+            {name}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h4>{name}</h4>
-          <p>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-            consectetur ac, vestibulum at eros.
-          </p>
+            <div>
+                {state.description}
+            </div>
+            <div className = 'modal__description'>
+                <Row>
+                    <Col md = {3}>
+                        <Button variant="danger">
+                            Open issues <Badge bg = '' className = 'modal__description_bage'>{state.openIssues}</Badge>
+                        </Button>
+                    </Col>
+                    <Col md = {3}>
+                        <Button variant="success">
+                            Forks <Badge bg = '' className = 'modal__description_bage'>{state.forks}</Badge>
+                        </Button> 
+                    </Col>
+                </Row> 
+                <Row className = 'modal__description_devider'>
+                    <hr />
+                </Row>
+                <Row className = 'modal__description_readmy'>
+                    <Col>
+                        <ReactMarkdown>
+                            {readmy}
+                        </ReactMarkdown>
+                    </Col>
+                </Row>          
+            </div>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>

@@ -5,11 +5,10 @@ import { ContextInterface } from '../../Interfaces/Common'
 import { FetchingData } from '../../API/apiFunctions'
 
 interface searchFormType{
-    data: ContextInterface | null;
     setData: Dispatch<ContextInterface>;
 }
 
-const SearchForm: FC<searchFormType> = ({data, setData}) => {
+const SearchForm: FC<searchFormType> = ({ setData }) => {
     const searchInputRef = useRef<HTMLInputElement>(null);
     const [searchQuery, setSearchQuery] = useState<string | null>(null);
 

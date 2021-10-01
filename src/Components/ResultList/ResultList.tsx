@@ -3,20 +3,7 @@ import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom'
 import { Row, Col } from 'react-bootstrap'
 import Detail from '../Detail/Detail'
 
-interface dataType{
-    node_id: string;
-    name: string;
-    full_name: string;
-    owner: {
-        login: string;
-    };
-    description: string;
-    open_issues: number;
-    forks: number;
-}
-
-
-const ResultList: FC<dataType[]> = ({data}) => {
+const ResultList = ({data}) => {
     const [modalShow, setModalShow] = useState(false);
 
     return (
@@ -27,7 +14,19 @@ const ResultList: FC<dataType[]> = ({data}) => {
                         {
                             data.map((item: any) => {
                                 return(
-                                    <Link to = {`/${item.name}`} key = {item.node_id} href="#" className="list-group-item list-group-item-action" aria-current="true" onClick = {() => setModalShow(true)}>
+                                    <Link 
+                                        to ={{ pathname: `${item.name}`, state: { 
+                                                owner: item.owner.login,
+                                                description: item.description,
+                                                openIssues: item.open_issues,
+                                                forks: item.forks
+                                            } }}
+                                        key = {item.node_id} 
+                                        href="#" 
+                                        className="list-group-item list-group-item-action" 
+                                        aria-current="true" 
+                                        onClick = {() => setModalShow(true)} 
+                                    >
                                         <div>
                                             <h2>{item.name}</h2>
                                             <p>Autor: {item.owner.login}</p>

@@ -1,0 +1,24 @@
+:root{
+    --light-gray: #ececec;
+    --black: black;
+    --margin: 1rem;
+}
+
+.modal{
+    &__description{
+        margin-top: var(--margin);
+
+        &_bage{
+            background-color: var(--light-gray);
+            color: var(--black);
+        }
+
+        &_devider{
+            margin-top: var(--margin);
+        }
+
+        &_readmy{
+            margin-top: var(--margin);
+        }
+    }
+}

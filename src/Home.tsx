@@ -18,7 +18,6 @@ const Home = () => {
           </Col>
         </Row>
         <SearchForm
-          data = {data}
           setData = {setData}
         />
         {data ? 

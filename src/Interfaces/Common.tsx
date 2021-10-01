@@ -10,5 +10,5 @@ export interface ContextInterface {
         description: string;
         open_issues: number;
         forks: number;
-    }[]
+    }
   }
