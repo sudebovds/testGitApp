@@ -1,28 +1,32 @@
-import React, { FC, useRef, useState, useEffect, Dispatch } from 'react'
-import axios from 'axios'
-import { Col, Form, Row } from 'react-bootstrap'
-import { ContextInterface } from '../../Interfaces/Common'
-import { FetchingData } from '../../API/apiFunctions'
+import React, { FC, useRef, useEffect } from 'react'
+import { Col, Form, Row, Button } from 'react-bootstrap'
+import { useTypedSelector } from '../../hooks/useTypedSelector'
+import { useActions } from '../../hooks/useAction'
+import { ClearData } from '../../store/action-creators/data'
 
-interface searchFormType{
-    setData: Dispatch<ContextInterface>;
-}
 
-const SearchForm: FC<searchFormType> = ({ setData }) => {
+const SearchForm: FC = () => {
+    const { searchQuery, page, data } = useTypedSelector(state => state.repos);
     const searchInputRef = useRef<HTMLInputElement>(null);
-    const [searchQuery, setSearchQuery] = useState<string | null>(null);
+    const { fetchData, setSearchQuery } = useActions();
 
     useEffect(() => {
-        FetchingData(searchQuery, setData)
+        if(searchQuery){
+            fetchData(searchQuery, page)
+        }
         
     }, [searchQuery])
 
     const onSubmitHandler = (e: React.FormEvent) => {
         e.preventDefault()
         
-        if(searchInputRef?.current?.value){
-            setSearchQuery(searchInputRef.current.value)
-        }
+        setSearchQuery(searchInputRef?.current?.value)
+    }
+
+    const submitButtonHandler = (e: React.MouseEvent) => {
+        e.preventDefault();
+
+        setSearchQuery(searchInputRef?.current?.value)
     }
 
     return (
@@ -35,6 +39,7 @@ const SearchForm: FC<searchFormType> = ({ setData }) => {
                     >
                         <Form.Control ref = {searchInputRef} type="text" placeholder="Type the repo name and push the Enter" />
                     </Form.Group>
+                    <Button variant = 'primary' type = 'reset' onClick = {submitButtonHandler} >Find</Button>
                 </Form>
             </Col>
         </Row>

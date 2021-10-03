@@ -3,7 +3,7 @@ import axios from 'axios'
 import { ContextInterface } from '../Interfaces/Common';
 import { ReadmeDecodeUnicode } from '../helpers/SupportFunctions';
 
-export const FetchingData = (searchQuery: string | null, setData: Dispatch<ContextInterface>) => {
+export const FetchingData = (searchQuery: string | null, setData: Dispatch<ContextInterface>, page: number) => {
     const query = searchQuery?.trim();
 
     if(query){
@@ -14,7 +14,7 @@ export const FetchingData = (searchQuery: string | null, setData: Dispatch<Conte
             params: {
               q: query,
               per_page: 30,
-              page: 1
+              page
             }
           })
             .catch(err => console.error(err))
