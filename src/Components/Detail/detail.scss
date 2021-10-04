@@ -1,0 +1,27 @@
+:root{
+
+    --margin: 1rem;
+}
+
+.modal{
+    &__description{
+        margin-top: var(--margin);
+
+        &_bage{
+            background-color: var(--bs-gray-600);
+        }
+
+        &_devider hr{
+            margin-top: var(--margin);
+        }
+
+        &_readmy{
+            margin-top: var(--margin);
+
+            img{
+                display: inline-flex;
+                max-width: 100%;
+            }
+        }
+    }
+}
